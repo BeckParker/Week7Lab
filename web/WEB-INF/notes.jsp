@@ -35,7 +35,8 @@
                         <tr>
                             <td>${note.noteId}</td>
                             <td>${note.dateCreated}</td>
-                            <td><input type="text" name="editContents" value="${note.contents}"></td>
+                            <td><input type="text" name="contents" value="${note.contents}"></td>
+                            <input type="hidden" name="id" value="${note.noteId}">
                         </tr>
                 </table>
                 <input type="hidden" name="action" value="updateNote">
@@ -50,11 +51,16 @@
             <td>Content</td>
         </thead>
             <c:forEach var="note" items="${notes}">
+                <form action="notes" method="POST">
                 <tr>
                     <td><a href="notes?noteSelection=${note.noteId}">${note.noteId}</a></td>
                     <td>${note.dateCreated}</td>
                     <td>${note.contents}</td>
+                    <input type="hidden" name="id" value="${note.noteId}">
+                    <td><input type="submit" value="Delete"></td>
+                    <input type="hidden" name="action" value="deleteNote">
                 </tr>
+                </form>
             </c:forEach>
         </table>
     </body>

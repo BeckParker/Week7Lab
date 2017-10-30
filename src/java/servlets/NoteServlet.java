@@ -52,27 +52,39 @@ public class NoteServlet extends HttpServlet {
         NoteService ns = new NoteService();
         
         if (action != null) {
+            String contents = request.getParameter("contents");
             if (action.equals("addNote")) {
-                String contents = request.getParameter("contents");
                 try {
                     ns.insertNote(0, contents);
                 } catch (Exception ex) {
                     Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                displayAllNotes(request, response);
             } else if (action.equals("deleteNote")) {
-                
-            } else if (action.equals("update")) {
-                
+                String strId = request.getParameter("id");
+                int id = Integer.parseInt(strId);
+                try {
+                    ns.deleteNote(id);
+                } catch (Exception ex) {
+                    Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else if (action.equals("updateNote")) {
+                String strId = request.getParameter("id");
+                int id = Integer.parseInt(strId);
+                try {
+                    ns.updateNote(id, contents);
+                } catch (Exception ex) {
+                    Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
+        displayAllNotes(request, response);
         //getServletContext().getRequestDispatcher("/WEB-INF/notes.jsp").forward(request, response);
     }
     
     private void displayAllNotes(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ArrayList<Note> notes = null;
-        String selectedNote = null;
+        //String selectedNote = null;
         
         NoteService noteService = new NoteService();
         try {
@@ -81,7 +93,7 @@ public class NoteServlet extends HttpServlet {
             Logger.getLogger(NoteServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         request.setAttribute("notes", notes);
-        request.setAttribute("selectedNote", selectedNote);
+        //request.setAttribute("selectedNote", selectedNote);
         
         getServletContext().getRequestDispatcher("/WEB-INF/notes.jsp").forward(request, response);
     }
@@ -100,7 +112,8 @@ public class NoteServlet extends HttpServlet {
         request.setAttribute("note", note);
         request.setAttribute("selectedNote", noteId);
         
-        getServletContext().getRequestDispatcher("/WEB-INF/notes.jsp").forward(request, response);
+        displayAllNotes(request, response);
+        //getServletContext().getRequestDispatcher("/WEB-INF/notes.jsp").forward(request, response);
     }
 
 }

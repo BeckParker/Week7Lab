@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context path="/Week07-JDBC-Lab">
+<Context path="/Week07 JDBC lab">
   <Resource auth="Container" 
             driverClassName="com.mysql.jdbc.Driver" 
             logAbandoned="true" 
